@@ -11,20 +11,11 @@ builder.Services.AddScoped<ConcreteObserver>();
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHttpClient<ApiAuthService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7182/");
-});
+var apiBase = builder.Configuration["ApiSettings:BaseUrl"]!.TrimEnd('/') + "/";
 
-builder.Services.AddHttpClient<IndividualBookingService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7182/");
-});
-
-builder.Services.AddHttpClient<WorkshopBookingService>(client =>
-{
-    client.BaseAddress = new Uri("https://localhost:7182/");
-});
+builder.Services.AddHttpClient<ApiAuthService>(client => client.BaseAddress = new Uri(apiBase));
+builder.Services.AddHttpClient<IndividualBookingService>(client => client.BaseAddress = new Uri(apiBase));
+builder.Services.AddHttpClient<WorkshopBookingService>(client => client.BaseAddress = new Uri(apiBase));
 
 builder.Services.AddDistributedMemoryCache();
 
