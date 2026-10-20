@@ -52,6 +52,9 @@ namespace Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("SessionNotes")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -66,6 +69,23 @@ namespace Api.Migrations
                     b.HasKey("IndividualBookingID");
 
                     b.ToTable("IndividualBooking");
+                });
+
+            modelBuilder.Entity("Api.Models.Entities.Notices", b =>
+                {
+                    b.Property<int>("NoticeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NoticeId"));
+
+                    b.Property<string>("NoticeMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NoticeId");
+
+                    b.ToTable("Notices");
                 });
 
             modelBuilder.Entity("Api.Models.Entities.WorkshopBooking", b =>
