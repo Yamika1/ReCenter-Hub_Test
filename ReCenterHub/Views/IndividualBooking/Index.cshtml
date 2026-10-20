@@ -15,14 +15,9 @@
      
     <div class="table-toolbar">
         <form asp-action="Index" method="get" style="display: flex; gap: 16px;">
-            <input type="text" name="firstName" value="@ViewData["firstName"]"
-                   class="form-control" placeholder="First name" aria-label="First name" />
+            <input type="date" name="date" value="@ViewData["date"]"
+                   class="form-control" placeholder="Date" aria-label="Date" />
 
-            <input type="text" name="surname" value="@ViewData["surname"]"
-                   class="form-control" placeholder="Surname" aria-label="Surname" />
-
-            <input type="text" name="category" value="@ViewData["category"]"
-                   class="form-control" placeholder="Category" aria-label="Category" />
 
             <button type="submit" class="btn-outline-brand btn-small">Search</button>
             <a asp-action="Index" class="btn-outline-brand btn-small">Clear</a>

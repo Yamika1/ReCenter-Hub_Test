@@ -23,7 +23,7 @@ namespace ReCenterHub.Controllers
         private static bool Matches(string? value, string search) =>
             value?.Contains(search, StringComparison.OrdinalIgnoreCase) == true;
 
-        public async Task<IActionResult> Index(string? category, string? firstName, string? surname)
+        public async Task<IActionResult> Index(DateTime? date)
         {
             var isAdmin = User.IsInRole("Admin");
 
@@ -46,14 +46,8 @@ namespace ReCenterHub.Controllers
                 ViewData["AdminNotification"] = $"You have {upcoming} upcoming individual booking/s.";
             }
 
-            if (!string.IsNullOrWhiteSpace(firstName))
-                bookings = bookings.Where(b => Matches(b.FirstName, firstName)).ToList();
-
-            if (!string.IsNullOrWhiteSpace(surname))
-                bookings = bookings.Where(b => Matches(b.Surname, surname)).ToList();
-
-            if (!string.IsNullOrWhiteSpace(category))
-                bookings = bookings.Where(b => Matches(b.Category, category)).ToList();
+            if (date.HasValue)
+                bookings = bookings.Where(b => b.Date_and_Time.Date == date.Value).ToList();
 
             return View(bookings);
         }
@@ -86,7 +80,7 @@ namespace ReCenterHub.Controllers
                     string notificationMessage = " You now have " + newBookingCount + " new booking/s.";
                     TempData["Notification"] = notificationMessage;
 
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction("Index", "SuccessTab");
                 }
                 catch (ArgumentException ex)
                 {
@@ -96,6 +90,7 @@ namespace ReCenterHub.Controllers
 
             return View(ib);
         }
+
 
         [HttpGet]
         public async Task<IActionResult> Update(int? id)

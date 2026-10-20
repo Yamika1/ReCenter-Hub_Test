@@ -115,6 +115,8 @@ namespace ReCenterHub.Services
                 .ReadFromJsonAsync<IndividualBooking>();
         }
 
+
+
         public async Task<bool> Delete(
             IndividualBooking request)
         {

@@ -8,10 +8,7 @@
 <div class="form-card">
     <div class="form-intro">
         <h1>Edit Workshop Booking</h1>
-        <p class="text-muted">
-            Edit this booking.
-            Current status: <span class="status-chip status-@status.ToLower()">@status</span>
-        </p>
+        <p class="text-muted">Edit this booking</p>
     </div>
 
     @if (TempData["Error"] != null)
@@ -21,7 +18,7 @@
 
     <div class="card shadow-sm">
         <div class="card-body p-4">
-    <form asp-action="Update" asp-route-id="@Model.WorkshopBookingID" method="post">
+    <form asp-action="EditWorkshopBooking" asp-route-id="@Model.WorkshopBookingID" method="post">
                 @Html.AntiForgeryToken()
 
                 <input asp-for="WorkshopBookingID" type="hidden" />
@@ -71,6 +68,17 @@
                min="@(Model.WorkshopBookingID == 0 ? DateTime.Now.ToString("yyyy-MM-ddTHH:mm") : null)" />
         <span asp-validation-for="Date_and_Time" class="field-validation-error"></span>
     </div>
+
+    <div class="form-field full-width" style="display:flex;gap:15px">
+                                    <input type="hidden" name="id" value="@Model.WorkshopBookingID" />
+                                    <select name="status" class="form-select" aria-label="Status">
+                                        @foreach (var s in BookingStatuses.All)
+                                        {
+                                            <option value="@s" selected="@(s == @Model.Status)">@s</option>
+                                        }
+                                    </select>
+                                   
+                                </div>
 
     <div class="form-field full-width">
         <label asp-for="OptionalNotes" class="form-label"></label>

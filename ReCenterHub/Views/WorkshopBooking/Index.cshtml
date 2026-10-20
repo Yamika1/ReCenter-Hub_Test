@@ -2,24 +2,21 @@
 
 @{
     ViewData["Title"] = "My Workshops";
-    var upcoming = ViewData["UpcomingCount"] as int? ?? 0;
+     var upcoming = ViewData["UpcomingCount"] as int? ?? 0;
 }
 
 <div class="page-heading">
     <span class="eyebrow">Your bookings</span>
     <h1>My Workshop Bookings</h1>
-    <p>You have @upcoming upcoming workshop@(upcoming == 1 ? "" : "s").</p>
+   <p>You have @upcoming upcoming session@(upcoming == 1 ? "" : "s").</p>
 </div>
 
 <div class="table-card">
     <div class="table-toolbar">
         <form asp-action="Index" method="get" class="filter-form" style="display: flex; gap: 16px;">
-            <input type="text" name="instituitionName" value="@ViewData["instituitionName"]" 
-                   class="form-control" placeholder="Institution" aria-label="Institution" />
-
-            <input type="text" name="topic" value="@ViewData["topic"]"
-                   class="form-control" placeholder="Topic" aria-label="Topic" />
-
+            <input type="date" name="date" value="@ViewData["date"]"
+                   class="form-control" placeholder="Date" aria-label="Date" />
+           
             <button type="submit" class="btn-outline-brand btn-small">Search</button>
             <a asp-action="Index" class="btn-outline-brand btn-small">Clear</a>
         </form>

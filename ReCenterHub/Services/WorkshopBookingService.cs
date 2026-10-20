@@ -77,25 +77,21 @@ namespace ReCenterHub.Services
                 .ReadFromJsonAsync<List<WorkshopBooking>>();
         }
 
-        public async Task<WorkshopBooking?> UpdateAsync(
-            WorkshopBooking request)
+        public async Task<WorkshopBooking?> UpdateAsync(WorkshopBooking wb)
         {
             AddToken();
-
             var response = await _httpClient.PutAsJsonAsync(
-                $"api/WorkshopBooking/{request.WorkshopBookingID}",
-                request);
+                $"api/WorkshopBooking/{wb.WorkshopBookingID}", wb);
 
             ThrowIfUnauthorized(response);
 
             if (!response.IsSuccessStatusCode)
-            {
                 return null;
-            }
 
-            return await response.Content
-                .ReadFromJsonAsync<WorkshopBooking>();
+            return await response.Content.ReadFromJsonAsync<WorkshopBooking>();
         }
+
+        
 
         public async Task<bool> DeleteAsync(int? id)
         {
@@ -109,8 +105,7 @@ namespace ReCenterHub.Services
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<WorkshopBooking?>
-            GetWorkshopBookingByIdAsync(int id)
+        public async Task<WorkshopBooking?> GetWorkshopBookingByIdAsync(int id)
         {
             AddToken();
 

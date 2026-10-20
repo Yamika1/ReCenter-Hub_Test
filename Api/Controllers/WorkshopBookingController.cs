@@ -85,7 +85,7 @@ namespace Api.Controllers
         [HttpPut]
         [Route("{id:int}")]
         [Authorize(Roles = "Client,Admin")]
-        public IActionResult UpdateWorkshop(int id, WorkshopBooking WorkshopBookingentity) {
+        public IActionResult UpdateWorkshop(int id, UpdateWorkshopBookingDTO WorkshopBookingentity) {
             var workshopBooking = _authDbContext.WorkshopBooking.Find(id); 
             
             if (workshopBooking is null) return NotFound();

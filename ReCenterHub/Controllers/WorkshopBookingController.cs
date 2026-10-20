@@ -25,7 +25,7 @@ namespace ReCenterHub.Controllers
           value?.Contains(search, StringComparison.OrdinalIgnoreCase) == true;
 
        
-        public async Task<IActionResult> Index(string? topic, string? instituitionName)
+        public async Task<IActionResult> Index(DateTime? date)
         {
             var isAdmin = User.IsInRole("Admin");
 
@@ -39,18 +39,16 @@ namespace ReCenterHub.Controllers
             }
 
             var bookings = loaded ?? new List<WorkshopBooking>();
+            var upcoming = _wbs.UpcomingSessions(bookings).Count;
+            ViewData["UpcomingCount"] = upcoming;
 
             if (isAdmin)
             {
-                var upcoming = _wbs.UpcomingSessions(bookings).Count;
                 ViewData["AdminNotification"] = $"You have {upcoming} upcoming workshop booking/s.";
             }
 
-            if (!string.IsNullOrWhiteSpace(instituitionName))
-                bookings = bookings.Where(b => Matches(b.InstitutionName, instituitionName)).ToList();
-
-            if (!string.IsNullOrWhiteSpace(topic))
-                bookings = bookings.Where(b => Matches(b.Topic, topic)).ToList();
+            if (!string.IsNullOrWhiteSpace(date?.ToString("yyyy-MM-dd")))
+                bookings = bookings.Where(b => Matches(b.Date_and_Time.Date.ToString("yyyy-MM-dd"), date.Value.ToString("yyyy-MM-dd"))).ToList();
 
             return View(bookings);
         }
@@ -75,8 +73,16 @@ namespace ReCenterHub.Controllers
             {
                 return View(wb);
             }
+            var admin = new Notification(newBookingCount);
+            _notifier.Subscribe(admin);
+
 
             var created = await _wbs.CreateAsync(wb);
+
+            newBookingCount++;
+            _notifier.Notify(newBookingCount);
+            string notificationMessage = " You now have " + newBookingCount + " new booking/s.";
+            TempData["Notification"] = notificationMessage;
 
             if (created == null)
             {
@@ -86,6 +92,9 @@ namespace ReCenterHub.Controllers
 
             return RedirectToAction("Index", "SuccessTab");
         }
+
+       
+
 
         [HttpGet]
         public async Task<IActionResult> Update(int? id)

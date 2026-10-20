@@ -235,6 +235,22 @@ namespace ReCenterHub.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> EditWorkshopBooking(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var booking = await _workshopBookingService.GetWorkshopBookingByIdAsync(id.Value);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+            return View(booking);
+        }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditWorkshopBooking(

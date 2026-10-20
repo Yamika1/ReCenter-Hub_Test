@@ -567,7 +567,8 @@ h1 {
 }
 
 .notice-card {
-    max-width: 760px;
+    overflow-wrap: anywhere;
+    word-break: break-word;
     margin: 2rem auto;
     padding: 2rem;
     border: 1px solid var(--border);
