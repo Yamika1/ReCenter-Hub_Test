@@ -147,8 +147,7 @@ namespace ReCenterHub.Services
                 .ReadFromJsonAsync<IndividualBooking>();
         }
 
-        public async Task<List<IndividualBooking>?>
-            SearchByFirstNameAndSurname(
+        public async Task<List<IndividualBooking>?>SearchByFirstNameAndSurname(
                 string firstName,
                 string surname)
         {
@@ -170,8 +169,7 @@ namespace ReCenterHub.Services
             return null;
         }
 
-        public async Task<List<IndividualBooking>?>
-            FilterByCategory(string category)
+        public async Task<List<IndividualBooking>?> FilterByCategory(string category)
         {
             AddToken();
 
@@ -190,15 +188,12 @@ namespace ReCenterHub.Services
             return null;
         }
 
-        public List<IndividualBooking> UpcomingSessions(
-            IEnumerable<IndividualBooking> bookings)
+        public List<IndividualBooking> UpcomingSessions(IEnumerable<IndividualBooking> bookings)
         {
-            return bookings
-                .Where(b =>
-                    b.Date_and_Time > DateTime.Now &&
-                    (b.Status == "Scheduled" ||
-                     b.Status == "Rescheduled"))
-                .ToList();
+           
+            return bookings.Where(b => b.Date_and_Time > DateTime.Now && (b.Status == "Scheduled" || b.Status == "Rescheduled")).ToList();
         }
+
+        
     }
 }

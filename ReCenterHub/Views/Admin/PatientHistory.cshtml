@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ReCenterHub.Models.IndividualBooking>
+
+@{
+    ViewData["Title"] = "Patient History";
+    
+}
+
+<div class="page-heading">
+    
+    <h1>Patient History</h1>
+     <p>Search through patient records and booking history.</p>
+</div>
+
+<div class="table-card">
+     
+    <div class="table-toolbar">
+        <form asp-action="PatientHistory" method="get" style="display: flex; gap: 16px;">
+            <input type="text" name="firstName" value="@ViewData["firstName"]"
+                   class="form-control" placeholder="First name" aria-label="First name" />
+
+            <input type="text" name="surname" value="@ViewData["surname"]"
+                   class="form-control" placeholder="Surname" aria-label="Surname" />
+
+
+            <button type="submit" class="btn-outline-brand btn-small">Search</button>
+            <a asp-action="PatientHistory" class="btn-outline-brand btn-small">Clear</a>
+        </form>
+
+       
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">No individual bookings were found.</div>
+    }
+    else if (string.IsNullOrWhiteSpace(ViewData["firstName"] as string) && string.IsNullOrWhiteSpace(ViewData["surname"] as string))
+    {
+      <p style="margin-left: 16px; color: #666;">Search for a patient by their first name or surname to view their sessions/bookings</p>
+    }
+
+    else
+    {
+        <div class="table-responsive">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>First name</th>
+                        <th>Surname</th>
+                        <th>Category</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Date and time</th>
+                        <th>Status</th>
+                        <th>Session Note Actions</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var booking in Model)
+                    {
+                        var status = string.IsNullOrWhiteSpace(booking.Status) ? "Pending" : booking.Status;
+
+                        <tr>
+                            <td>@booking.FirstName</td>
+                            <td>@booking.Surname</td>
+                            <td>@booking.Category</td>
+                            <td>@booking.PhoneNumber</td>
+                            <td>@booking.EmailAddress</td>
+                            <td>@booking.Date_and_Time.ToString("dd MMM yyyy, HH:mm")</td>
+                            <td><span class="status-chip status-@status.ToLower()">@status</span></td>
+                            <td style="display: flex; flex-direction: row; gap: 5px;">
+                                @if (string.IsNullOrWhiteSpace(booking.SessionNotes))
+                                {
+                                    <a asp-action="ViewSessionNotes" asp-route-id="@booking.IndividualBookingID" class="btn-outline-brand btn-small" style="width:90px;height:40px; font-size: 14px; text-align: center;">View</a>
+                                    <a asp-action="AddSessionNotes" asp-route-id="@booking.IndividualBookingID" class="btn-outline-brand btn-small" style="width:90px; height: 40px; font-size: 14px; text-align: center;">Add</a>
+                                }
+                                else
+                                {
+                                    <a asp-action="ViewSessionNotes" asp-route-id="@booking.IndividualBookingID" class="btn-outline-brand btn-small" style="width:90px;height:40px; font-size: 14px; text-align: center;">View</a>
+                                    <a asp-action="EditSessionNotes" asp-route-id="@booking.IndividualBookingID" class="btn-outline-brand btn-small" style="width:90px; height: 40px; font-size: 14px; text-align: center;">Edit</a>
+                                }
+
+                            </td>
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

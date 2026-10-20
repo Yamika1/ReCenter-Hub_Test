@@ -672,6 +672,7 @@ textarea.form-control {
     width: 100%;
     border-collapse: collapse;
     background: #fff;
+    height:auto;
 }
 
     .styled-table th {

@@ -109,7 +109,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Client")]
         [Route("{id:int}")]
         public IActionResult DeleteWorkshopBooking(int id)
         {
@@ -117,12 +117,14 @@ namespace Api.Controllers
             
             if (workshopBooking is null)
                 
-                return NotFound(); 
-            
-            if (!CanAccess(workshopBooking)) 
-                
-                return StatusCode(StatusCodes.Status403Forbidden);
-            
+                return NotFound();
+
+            if (!CanAccess(workshopBooking))
+            {
+                return StatusCode(
+                    StatusCodes.Status403Forbidden);
+            }
+
             _authDbContext.WorkshopBooking.Remove(workshopBooking);
             
             _authDbContext.SaveChanges();

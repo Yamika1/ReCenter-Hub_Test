@@ -38,11 +38,11 @@ namespace ReCenterHub.Controllers
             }
 
             var bookings = loaded ?? new List<IndividualBooking>();
+            var upcoming = _ibs.UpcomingSessions(bookings).Count;
+            ViewData["UpcomingCount"] = upcoming;
 
-           
             if (isAdmin)
-            {
-                var upcoming = _ibs.UpcomingSessions(bookings).Count;
+            {       
                 ViewData["AdminNotification"] = $"You have {upcoming} upcoming individual booking/s.";
             }
 
@@ -157,7 +157,11 @@ namespace ReCenterHub.Controllers
             {
                 return NotFound();
             }
-            await _ibs.Delete(booking);
+            var deleted = await _ibs.Delete(booking);
+
+            TempData[deleted ? "Notification" : "Error"] = deleted
+                ? "The individual booking was deleted."
+                : "The individual booking could not be deleted.";
             return RedirectToAction(nameof(Index));
         }
 

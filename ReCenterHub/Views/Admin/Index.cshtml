@@ -38,6 +38,7 @@
                         <th>Date and time</th>
                         <th>Notes</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,17 +52,18 @@
                             <td>@b.PhoneNumber<br />@b.EmailAddress</td>
                             <td>@b.Date_and_Time.ToString("dd MMM yyyy, HH:mm")</td>
                             <td>@b.OptionalNotes</td>
+                            <td>@b.Status</td>
                             <td>
-                                <form asp-action="SetIndividualStatus" method="post" class="status-form">
-                                    <input type="hidden" name="id" value="@b.IndividualBookingID" />
-                                    <select name="status" class="form-select" aria-label="Status">
-                                        @foreach (var s in BookingStatuses.All)
-                                        {
-                                            <option value="@s" selected="@(s == current)">@s</option>
-                                        }
-                                    </select>
-                                    <button type="submit" class="btn-outline-brand btn-small">Save</button>
+                                <div style="display:flex; gap: 10px">
+                                    <form asp-action="EditIndividualBooking" asp-route-id="@b.IndividualBookingID" method="get"
+                                          style="margin-block-end: 10px;">
+                                        <button type="submit" class="btn btn-warning btn-sm">Edit</button>
+                                    </form>
+                                <form asp-action="DeleteIndividualBooking" asp-route-id="@b.IndividualBookingID" method="post" onclick="return confirm('Are you sure you want to delete this booking?');"
+                                      style="margin-block-end: 10px;">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
+                                </div>
                             </td>
                         </tr>
                     }
@@ -93,6 +95,7 @@
                         <th>Date and time</th>
                         <th>Notes</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -118,6 +121,16 @@
                                     </select>
                                     <button type="submit" class="btn-outline-brand btn-small">Save</button>
                                 </form>
+                            </td>
+                            <td>
+                                <div style="display:flex; gap: 10px">
+                                    <a asp-action="EditWorkshopBooking" asp-route-id="@w.WorkshopBookingID" class="btn-outline-brand btn-small">Edit</a>
+
+                                    <form asp-action="DeleteWorkshopBooking" asp-route-id="@w.WorkshopBookingID" method="post" onclick="return confirm('Are you sure you want to delete this booking?');"
+                                          style="margin-block-end: 10px;">
+                                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     }

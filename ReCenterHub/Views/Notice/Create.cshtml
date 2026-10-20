@@ -1,0 +1,36 @@
+﻿@model ReCenterHub.Models.Notices
+@{
+    ViewData["Title"] = "Create Notice";
+   
+}
+
+<div class="account-container">
+    <div class="account-box">
+        <h2 class="text-center mb-4">Create Notice</h2>
+
+        <form asp-controller="Notice" asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="mb-3">
+                <label asp-for="NoticeMessage" class="form-label">Notice Message</label>
+                <input asp-for="NoticeMessage" class="form-control" />
+                <span asp-validation-for="NoticeMessage" class="text-danger"></span>
+            </div>
+
+            
+
+            <button type="submit" class="btn btn-success w-100 p-2">Create</button>
+
+           
+            <div class="text-center">
+                <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

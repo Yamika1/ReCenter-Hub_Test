@@ -136,24 +136,24 @@ namespace ReCenterHub.Controllers
         }
 
 
-        
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    var deleted = await _wbs.DeleteAsync(id);
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        //    TempData[deleted ? "Notification" : "Error"] = deleted
-        //        ? "The workshop booking was deleted."
-        //        : "The workshop booking could not be deleted.";
+            var deleted = await _wbs.DeleteAsync(id);
 
-        //    return RedirectToAction(nameof(Index));
-        //}
+            TempData[deleted ? "Notification" : "Error"] = deleted
+                ? "The workshop booking was deleted."
+                : "The workshop booking could not be deleted.";
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
 

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<ReCenterHub.Models.Notices>
+
+@{
+    ViewData["Title"] = "Notices";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+<div class="alert alert-danger alert-dismissible">
+    @TempData["ErrorMessage"]
+    <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible">
+        @TempData["SuccessMessage"]
+        <button class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="page-heading">
+    <span class="eyebrow">Updates from Re-Center Hub</span>
+    <h1>Notices</h1>
+    <p>Important information and announcements.</p>
+</div>
+
+<section class="notice-card">
+    <h2>Welcome to Re-Center Hub</h2>
+  
+    <p>
+        Please check this page regularly for important announcements
+        and updates.
+    </p>
+    
+    @if (Model?.Any() == false)
+    {
+        <p class="mb-0 small text-muted">
+            New notices will appear here when published.
+        </p>
+    }
+    else
+    {   
+
+    <ul>
+        @foreach (var item in Model) 
+        {
+                
+                <li style="list-style-type: disc; margin-left: 20px; font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-display: swap;font-size:large">
+                    <strong>
+                    @item.NoticeMessage
+                    </strong>
+                </li>
+        }
+    
+    </ul>
+    }
+</section>

@@ -1,0 +1,39 @@
+﻿@model ReCenterHub.Models.IndividualBooking
+
+@{
+    ViewData["Title"] = "View Session Notes";
+}
+
+
+
+<div class="page-heading">
+    <span class="eyebrow">View Session Notes </span>
+    <h1>Session Notes for @Model.FirstName @Model.Surname</h1>
+    
+</div>
+
+<section class="notice-card">
+   
+    @if (@Model.SessionNotes == null || @Model.SessionNotes == "")
+    {
+        <p class="mb-0 small text-muted">
+            This client currently has no notes from their session.
+        </p>
+    }
+    else
+    {
+
+       <p style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;font-display: swap;font-size:large">
+           <strong>
+              @Model.SessionNotes
+              </strong>
+             </p>
+     
+     }
+
+      
+    
+</section>
+<div class="form-actions">
+    <a asp-action="PatientHistory" class="btn-outline-brand">Back to Patient History</a>
+</div>

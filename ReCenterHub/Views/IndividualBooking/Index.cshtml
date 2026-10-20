@@ -12,19 +12,23 @@
 </div>
 
 <div class="table-card">
+     
     <div class="table-toolbar">
-        <form asp-action="Index" method="get" class="filter-form">
+        <form asp-action="Index" method="get" style="display: flex; gap: 16px;">
             <input type="text" name="firstName" value="@ViewData["firstName"]"
                    class="form-control" placeholder="First name" aria-label="First name" />
+
             <input type="text" name="surname" value="@ViewData["surname"]"
                    class="form-control" placeholder="Surname" aria-label="Surname" />
+
             <input type="text" name="category" value="@ViewData["category"]"
                    class="form-control" placeholder="Category" aria-label="Category" />
+
             <button type="submit" class="btn-outline-brand btn-small">Search</button>
             <a asp-action="Index" class="btn-outline-brand btn-small">Clear</a>
         </form>
 
-        <a asp-action="Create" class="btn-brand">+ New booking</a>
+       
     </div>
 
     @if (Model == null || !Model.Any())
@@ -61,19 +65,14 @@
                             <td>@booking.Date_and_Time.ToString("dd MMM yyyy, HH:mm")</td>
                             <td><span class="status-chip status-@status.ToLower()">@status</span></td>
                             <td>
-                                <div class="row-actions">
+                                <div class="row-actions" style="display: flex; gap: 16px;">
                                     @if (!BookingStatuses.isClosed(booking.Status))
                                     {
-                                        <a asp-action="Update"
-                                           asp-route-id="@booking.IndividualBookingID"
-                                           class="btn-outline-brand btn-small">Edit</a>
+                                        <a asp-action="Update" asp-route-id="@booking.IndividualBookingID" class="btn-outline-brand btn-small" style="width: 75px; height: 40px;">Edit</a>
                                     }
 
-                                    <form asp-action="Delete"
-                                          asp-route-id="@booking.IndividualBookingID"
-                                          method="post"
-                                          onsubmit="return confirm('Are you sure you want to delete this booking?');">
-                                        <button type="submit" class="btn-outline-brand btn-danger-soft btn-small">Delete</button>
+                                    <form asp-action="Delete" asp-route-id="@booking.IndividualBookingID" method="post"  onsubmit="return confirm('Are you sure you want to delete this booking?');">
+                                        <button type="submit" class="btn-outline-brand btn-danger-soft btn-small" style="width: 75px; height: 40px;">Delete</button>
                                     </form>
                                 </div>
                             </td>

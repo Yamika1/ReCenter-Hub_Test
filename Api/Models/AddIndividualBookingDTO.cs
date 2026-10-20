@@ -26,5 +26,8 @@ namespace Api.Models
 
         [Display(Name = "Status")]
         public string? Status { get; set; }
+
+        [Display(Name = "Session Notes")]
+        public string? SessionNotes { get; set; }
     }
 }

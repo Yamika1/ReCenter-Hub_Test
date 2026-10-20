@@ -17,5 +17,7 @@ namespace Api.Data
         public DbSet<IndividualBooking> IndividualBooking { get; set; }
 
         public DbSet<WorkshopBooking> WorkshopBooking { get; set; }
+
+        public DbSet<Notices> Notices { get; set; }
     }
 }

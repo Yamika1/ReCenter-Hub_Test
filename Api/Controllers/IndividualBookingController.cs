@@ -108,7 +108,8 @@ namespace Api.Controllers
                     OptionalNotes =
                         individualBookingentity.OptionalNotes,
 
-                    Status = "Scheduled"
+                    Status = "Scheduled",
+                    SessionNotes = individualBookingentity.SessionNotes
                 };
 
             _authDbContext
@@ -164,13 +165,12 @@ namespace Api.Controllers
             individualBooking.OptionalNotes =
                 individualBookingentity.OptionalNotes;
 
+            
             // ONLY ADMIN CAN CHANGE STATUS
-            if (User.IsInRole("Admin") &&
-                !string.IsNullOrWhiteSpace(
-                    individualBookingentity.Status))
+            if (User.IsInRole("Admin") && !string.IsNullOrWhiteSpace( individualBookingentity.Status) || !string.IsNullOrWhiteSpace( individualBookingentity.SessionNotes))
             {
-                individualBooking.Status =
-                    individualBookingentity.Status;
+                individualBooking.Status =  individualBookingentity.Status;
+                individualBooking.SessionNotes = individualBookingentity.SessionNotes;
             }
 
             _authDbContext.SaveChanges();
@@ -180,7 +180,7 @@ namespace Api.Controllers
 
         // ADMIN: DELETE BOOKING
         [HttpDelete("{id:int}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Client")]
         public IActionResult DeleteBooking(int id)
         {
             var individualBooking =

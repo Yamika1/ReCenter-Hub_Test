@@ -67,29 +67,35 @@
 
         <nav class="main-nav" aria-label="Main navigation">
             <a asp-controller="Home" asp-action="Index">Home</a>
-            <a asp-controller="AboutMe" asp-action="Index">About Me</a>
+            <a asp-controller="AboutMe" asp-action="Index">About Owner</a>
             <a asp-controller="AboutCompany" asp-action="Index">About Re-Center</a>
             <a asp-controller="Services" asp-action="Index">Services</a>
             <a asp-controller="FAQ" asp-action="Index">FAQs</a>
             <a asp-controller="Notice" asp-action="Index">Notices</a>
+            
 
             @if (!User.IsInRole("Admin"))
             {
                 @* Visitors and clients can book; visitors are sent to sign in first. *@
                 <a asp-controller="IndividualBooking" asp-action="Create">Book a session</a>
                 <a asp-controller="WorkshopBooking" asp-action="Create">Book a workshop</a>
+                
             }
 
-            @if (User.IsInRole("Client"))
+            @if (User.IsInRole("Client") && !User.IsInRole("Admin"))
             {
+               
                 <a asp-controller="IndividualBooking" asp-action="Index">My sessions</a>
                 <a asp-controller="WorkshopBooking" asp-action="Index">My workshops</a>
+                
             }
 
             @if (User.IsInRole("Admin"))
             {
+                
                 <a asp-controller="Admin" asp-action="Index">Admin dashboard</a>
-                <a asp-controller="ClientDetails" asp-action="Index">Client details</a>
+                <a asp-controller="Admin" asp-action="PatientHistory">Patient history</a>
+               
             }
         </nav>
     </header>
