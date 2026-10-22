@@ -132,6 +132,10 @@ a {
     color: #fff !important;
 }
 
+
+
+
+
 .main-nav {
     display: flex;
     align-items: center;
@@ -140,21 +144,45 @@ a {
     gap: .15rem 1.3rem;
     padding: .72rem 1.5rem;
     background: var(--olive-dark);
+    
 }
 
-    .main-nav a {
-        color: #f8f8f4;
+    .main-nav  a {
+        color: floralwhite;
         text-decoration: none;
         font-size: .86rem;
         padding: .3rem 0;
         border-bottom: 2px solid transparent;
     }
 
-        .main-nav a:hover,
-        .main-nav a:focus {
+        .main-nav  a:hover,
+        .main-nav  a:focus {
             color: var(--gold);
             border-color: var(--gold);
         }
+
+.drop-m {
+    color: floralwhite !important;
+}
+
+    .drop-m:hover,
+    .drop-m:focus {
+        color: var(--gold) !important;
+        border-color: var(--gold) !important;
+    }
+
+.drop-items a{
+    display:block;
+    color: darkolivegreen;
+    text-align:center;
+    padding: 8px 16px;
+}
+
+    .drop-items a:hover,
+    .drop-items a:focus {
+        color: var(--gold);
+        border:none
+    }
 
 .page-content {
     width: min(1200px, calc(100% - 2rem));
@@ -205,11 +233,13 @@ h1 {
 
 .page-heading {
     text-align: center;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
     margin: 0 0 1.8rem;
 }
 
     .page-heading h1 {
         font-size: clamp(1.8rem, 4vw, 2.7rem);
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
         color: var(--olive);
         margin: .3rem 0 .7rem;
     }
@@ -217,6 +247,7 @@ h1 {
     .page-heading p {
         max-width: 720px;
         margin: auto;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
         color: var(--muted);
     }
 
@@ -579,7 +610,7 @@ h1 {
 }
 
     .notice-card h2 {
-        color: var(--olive);
+        color: var(--olive); 
     }
 
 /* Forms */
@@ -950,3 +981,4 @@ textarea:focus-visible {
         animation: none !important;
     }
 }
+

@@ -65,21 +65,28 @@
             </div>
         </div>
 
-        <nav class="main-nav" aria-label="Main navigation">
+        <nav class="main-nav"  aria-label="Main navigation">  
             <a asp-controller="Home" asp-action="Index">Home</a>
-            <a asp-controller="AboutMe" asp-action="Index">About Owner</a>
-            <a asp-controller="AboutCompany" asp-action="Index">About Re-Center</a>
-            <a asp-controller="Services" asp-action="Index">Services</a>
-            <a asp-controller="FAQ" asp-action="Index">FAQs</a>
-            <a asp-controller="Notice" asp-action="Index">Notices</a>
+            <a asp-controller="AboutMe" asp-action="Index" >About Owner</a>
+            <a asp-controller="AboutCompany" asp-action="Index" >About Re-Center</a>
+            <a asp-controller="Services" asp-action="Index" >Services</a>
+            <a asp-controller="FAQ" asp-action="Index" >FAQs</a>
+            <a asp-controller="Notice" asp-action="Index" >Notices</a>
+            
             
 
             @if (!User.IsInRole("Admin"))
             {
                 @* Visitors and clients can book; visitors are sent to sign in first. *@
-                <a asp-controller="IndividualBooking" asp-action="Create">Book a session</a>
-                <a asp-controller="WorkshopBooking" asp-action="Create">Book a workshop</a>
-                
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle drop-m" data-bs-toggle="dropdown" href="#" role="tab" aria-expanded="false">Bookings</a>
+                    <ul class="dropdown-menu">
+                        <li class="drop-items"><a asp-controller="IndividualBooking" asp-action="Create" >Individual Session</a> </li>
+                        <li ><hr class="dropdown-divider"></li>
+                        <li class="drop-items"><a asp-controller="WorkshopBooking" asp-action="Create">Workshop Session</a> </li>
+                    </ul>
+                </div>
+               
             }
 
             @if (User.IsInRole("Client") && !User.IsInRole("Admin"))
@@ -118,7 +125,7 @@
         <div class="footer-inner">
             <span>Re-Center Hub</span>
             <span>A Hub for Growth. A Path to Purpose.</span>
-            <a asp-controller="Notice" asp-action="Index">Notices</a>
+            <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
         </div>
     </footer>
 
