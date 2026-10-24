@@ -49,8 +49,8 @@
                                                     document.getElementById("copyRecoveryCodes")
                                                         .addEventListener("click", async function () {
                                                             const codes = @Html.Raw(
-                                                                                                                                                                            System.Text.Json.JsonSerializer.Serialize(
-                                                                                                                                                                                            Model.RecoveryCodes));
+                                                                                                    System.Text.Json.JsonSerializer.Serialize(
+                                                                                                            Model.RecoveryCodes));
 
                                                             await navigator.clipboard.writeText(
                                                                 codes.join("\n"));
