@@ -43,9 +43,8 @@
 
                 <input asp-for="AuthenticatorCode"
                        class="form-control"
-                       inputmode="numeric"
                        autocomplete="one-time-code"
-                       maxlength="7"
+                       maxlength="11"
                        placeholder="Enter code if 2FA is enabled" />
 
                 <span asp-validation-for="AuthenticatorCode"
@@ -53,6 +52,7 @@
 
                 <small class="text-muted">
                     Leave this blank if you have not enabled two-factor authentication.
+                    Lost your phone? Enter one of your recovery codes here instead.
                 </small>
             </div>
 

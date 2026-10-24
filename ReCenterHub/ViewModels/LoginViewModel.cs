@@ -17,10 +17,9 @@ namespace ReCenterHub.ViewModels
 
 
         [Display(Name = "Google Authenticator code")]
-        [StringLength(7, MinimumLength = 6,
-            ErrorMessage = "Enter a valid six-digit authenticator code.")]
+        [StringLength(11, MinimumLength = 6,
+             ErrorMessage = "Enter your six-digit authenticator code or a recovery code.")]
         public string? AuthenticatorCode { get; set; }
-
 
     }
 }

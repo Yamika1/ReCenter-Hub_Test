@@ -9,11 +9,10 @@
             _httpClient = httpClient;
         }
 
-
         public async Task<LoginResponse?> LoginAsync(
-            string email,
-            string password,
-            string? authenticatorCode = null)
+                    string email,
+                    string password,
+                    string? authenticatorCode = null)
         {
             var loginData = new Dictionary<string, string>
             {
@@ -23,9 +22,18 @@
 
             if (!string.IsNullOrWhiteSpace(authenticatorCode))
             {
-                loginData["twoFactorCode"] = authenticatorCode
-                    .Replace(" ", "")
-                    .Replace("-", "");
+                var code = authenticatorCode.Trim();
+
+                var stripped = code.Replace(" ", "").Replace("-", "");
+
+                if (code.Contains('-') && stripped.Length > 6)
+                {
+                    loginData["twoFactorRecoveryCode"] = code.Replace(" ", "");
+                }
+                else
+                {
+                    loginData["twoFactorCode"] = stripped;
+                }
             }
 
             using var response = await _httpClient.PostAsJsonAsync(
@@ -40,7 +48,6 @@
             return await response.Content
                 .ReadFromJsonAsync<LoginResponse>();
         }
-
 
         public async Task<CurrentUser?> GetCurrentUserAsync(string accessToken)
         {

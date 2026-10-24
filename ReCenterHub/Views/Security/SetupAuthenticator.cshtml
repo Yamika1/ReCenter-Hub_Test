@@ -49,8 +49,8 @@
                                                     document.getElementById("copyRecoveryCodes")
                                                         .addEventListener("click", async function () {
                                                             const codes = @Html.Raw(
-                                                                                                    System.Text.Json.JsonSerializer.Serialize(
-                                                                                                            Model.RecoveryCodes));
+                                                                                                                                                                            System.Text.Json.JsonSerializer.Serialize(
+                                                                                                                                                                                            Model.RecoveryCodes));
 
                                                             await navigator.clipboard.writeText(
                                                                 codes.join("\n"));
@@ -67,12 +67,14 @@
                             the QR code below.
                         </p>
 
-                        <div id="qrCode"
-                             class="d-flex justify-content-center my-4"></div>
-
-                        <input type="hidden"
-                               id="authenticatorUri"
-                               value="@Model.AuthenticatorUri" />
+                        <div class="d-flex justify-content-center my-4">
+                            @if (!string.IsNullOrEmpty(Model.QrCodeBase64))
+                            {
+                                <img src="data:image/png;base64,@Model.QrCodeBase64"
+                                     alt="Authenticator QR code"
+                                     width="200" height="200" />
+                            }
+                        </div>
 
                         <div class="mb-4">
                             <label class="form-label fw-semibold">
@@ -142,17 +144,7 @@
 
     @if (!Model.IsEnabled)
     {
-        <script src="~/lib/qrcode.js"></script>
-
         <script>
-            const uri = document.getElementById("authenticatorUri").value;
-
-            new QRCode(document.getElementById("qrCode"), {
-            text: uri,
-            width: 200,
-            height: 200
-            });
-
             document.getElementById("copySharedKey")
             .addEventListener("click", async function () {
             await navigator.clipboard.writeText(

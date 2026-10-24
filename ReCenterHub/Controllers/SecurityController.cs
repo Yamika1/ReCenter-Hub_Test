@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using QRCoder;
 using ReCenterHub.Services;
 using ReCenterHub.ViewModels;
 
@@ -99,7 +100,9 @@ namespace ReCenterHub.Controllers
         {
             var result = await _service.BeginSetupAsync(token);
             model.SharedKey = result.SharedKey ?? string.Empty;
-            model.AuthenticatorUri = CreateViewModel(result).AuthenticatorUri;
+            var rebuilt = CreateViewModel(result);
+            model.AuthenticatorUri = rebuilt.AuthenticatorUri;
+            model.QrCodeBase64 = rebuilt.QrCodeBase64;
         }
 
 
@@ -122,10 +125,22 @@ namespace ReCenterHub.Controllers
                 $"otpauth://totp/{issuer}:{account}" +
                 $"?secret={key}&issuer={issuer}&digits=6";
 
+            var qrCodeBase64 = string.Empty;
+
+            if (!string.IsNullOrEmpty(key))
+            {
+                using var generator = new QRCodeGenerator();
+                using var qrData = generator.CreateQrCode(
+                    authenticatorUri, QRCodeGenerator.ECCLevel.Q);
+                var png = new PngByteQRCode(qrData).GetGraphic(10);
+                qrCodeBase64 = Convert.ToBase64String(png);
+            }
+
             return new TwoFactorSetupViewModel
             {
                 SharedKey = result.SharedKey ?? string.Empty,
                 AuthenticatorUri = authenticatorUri,
+                QrCodeBase64 = qrCodeBase64,
                 IsEnabled = result.IsTwoFactorEnabled
             };
         }

@@ -7,6 +7,7 @@ namespace ReCenterHub.ViewModels
         public string SharedKey { get; set; } = string.Empty;
 
         public string AuthenticatorUri { get; set; } = string.Empty;
+        public string QrCodeBase64 { get; set; } = string.Empty;
 
         [Required]
         [StringLength(7, MinimumLength = 6)]
