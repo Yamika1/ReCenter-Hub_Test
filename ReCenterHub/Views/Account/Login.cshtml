@@ -36,6 +36,26 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
+            <div class="mb-3">
+                <label asp-for="AuthenticatorCode" class="form-label">
+                    Google Authenticator code
+                </label>
+
+                <input asp-for="AuthenticatorCode"
+                       class="form-control"
+                       inputmode="numeric"
+                       autocomplete="one-time-code"
+                       maxlength="7"
+                       placeholder="Enter code if 2FA is enabled" />
+
+                <span asp-validation-for="AuthenticatorCode"
+                      class="text-danger"></span>
+
+                <small class="text-muted">
+                    Leave this blank if you have not enabled two-factor authentication.
+                </small>
+            </div>
+
             <div class="form-check mb-3">
                 <label class="form-check-label">
                     <input asp-for="RememberMe" class="form-check-input" />

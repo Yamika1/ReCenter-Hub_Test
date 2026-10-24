@@ -17,6 +17,8 @@ builder.Services.AddHttpClient<ApiAuthService>(client => client.BaseAddress = ne
 builder.Services.AddHttpClient<IndividualBookingService>(client => client.BaseAddress = new Uri(apiBase));
 builder.Services.AddHttpClient<WorkshopBookingService>(client => client.BaseAddress = new Uri(apiBase));
 builder.Services.AddHttpClient<NoticeService>(client => client.BaseAddress = new Uri(apiBase));
+builder.Services.AddHttpClient<TwoFactorApiService>(
+    client => client.BaseAddress = new Uri(apiBase));
 
 builder.Services.AddDistributedMemoryCache();
 

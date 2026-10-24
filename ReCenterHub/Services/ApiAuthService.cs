@@ -9,17 +9,28 @@
             _httpClient = httpClient;
         }
 
+
         public async Task<LoginResponse?> LoginAsync(
             string email,
-            string password)
+            string password,
+            string? authenticatorCode = null)
         {
-            var response = await _httpClient.PostAsJsonAsync(
+            var loginData = new Dictionary<string, string>
+            {
+                ["email"] = email,
+                ["password"] = password
+            };
+
+            if (!string.IsNullOrWhiteSpace(authenticatorCode))
+            {
+                loginData["twoFactorCode"] = authenticatorCode
+                    .Replace(" ", "")
+                    .Replace("-", "");
+            }
+
+            using var response = await _httpClient.PostAsJsonAsync(
                 "login?useCookies=false",
-                new
-                {
-                    email,
-                    password
-                });
+                loginData);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -29,6 +40,7 @@
             return await response.Content
                 .ReadFromJsonAsync<LoginResponse>();
         }
+
 
         public async Task<CurrentUser?> GetCurrentUserAsync(string accessToken)
         {

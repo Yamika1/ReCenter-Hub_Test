@@ -38,12 +38,12 @@ namespace ReCenterHub.Controllers
 
             }
 
-            var result = await _apiAuthService.LoginAsync(model.Email, model.Password);
+            var result = await _apiAuthService.LoginAsync( model.Email, model.Password, model.AuthenticatorCode);
 
             if (result == null || string.IsNullOrEmpty(result.AccessToken))
             {
 
-                ModelState.AddModelError(string.Empty, "Invalid Login Attempt.");
+                ModelState.AddModelError(string.Empty,"Login failed. If Google Authenticator is enabled, enter your current six-digit code and try again.");
 
                 return View(model);
 

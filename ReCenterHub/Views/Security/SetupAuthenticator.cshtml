@@ -1,0 +1,165 @@
+﻿@model ReCenterHub.ViewModels.TwoFactorSetupViewModel
+
+@{
+    ViewData["Title"] = "Google Authenticator";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <h2 class="fw-bold mb-3">
+                        Google Authenticator
+                    </h2>
+
+                    @if (Model.IsEnabled)
+                    {
+                        <div class="alert alert-success">
+                            Two-factor authentication is enabled.
+                        </div>
+
+                        @if (Model.RecoveryCodes.Count > 0)
+                        {
+                            <h5>Save your recovery codes</h5>
+
+                            <p>
+                                Store these codes somewhere safe. Each code
+                                can be used if you lose access to Google
+                                Authenticator.
+                            </p>
+
+                            <ul>
+                                @foreach (var code in Model.RecoveryCodes)
+                                {
+                                    <li><code>@code</code></li>
+                                }
+                            </ul>
+
+                            <button type="button"
+                                    class="btn btn-outline-secondary"
+                                    id="copyRecoveryCodes">
+                                Copy recovery codes
+                            </button>
+
+                            <script>
+                                                    document.getElementById("copyRecoveryCodes")
+                                                        .addEventListener("click", async function () {
+                                                            const codes = @Html.Raw(
+                                                                                                    System.Text.Json.JsonSerializer.Serialize(
+                                                                                                            Model.RecoveryCodes));
+
+                                                            await navigator.clipboard.writeText(
+                                                                codes.join("\n"));
+
+                                                            this.textContent = "Copied";
+                                                        });
+                            </script>
+                        }
+                    }
+                    else
+                    {
+                        <p>
+                            Use Google Authenticator on your phone to scan
+                            the QR code below.
+                        </p>
+
+                        <div id="qrCode"
+                             class="d-flex justify-content-center my-4"></div>
+
+                        <input type="hidden"
+                               id="authenticatorUri"
+                               value="@Model.AuthenticatorUri" />
+
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Manual setup key
+                            </label>
+
+                            <div class="input-group">
+                                <input id="sharedKey"
+                                       class="form-control"
+                                       value="@Model.SharedKey"
+                                       readonly />
+
+                                <button type="button"
+                                        class="btn btn-outline-secondary"
+                                        id="copySharedKey">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <form asp-controller="Security"
+                              asp-action="SetupAuthenticator"
+                              method="post">
+
+                            @Html.AntiForgeryToken()
+
+                            <div asp-validation-summary="ModelOnly"
+                                 class="text-danger mb-3"></div>
+
+                            <div class="mb-3">
+                                <label asp-for="Code"
+                                       class="form-label"></label>
+
+                                <input asp-for="Code"
+                                       class="form-control"
+                                       inputmode="numeric"
+                                       autocomplete="one-time-code"
+                                       maxlength="7"
+                                       placeholder="Enter your six-digit code" />
+
+                                <span asp-validation-for="Code"
+                                      class="text-danger"></span>
+                            </div>
+
+                            <button type="submit"
+                                    class="btn btn-success w-100">
+                                Verify and enable 2FA
+                            </button>
+                        </form>
+                    }
+
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="btn btn-link mt-3">
+                        Back to home
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    @if (!Model.IsEnabled)
+    {
+        <script src="~/lib/qrcode.js"></script>
+
+        <script>
+            const uri = document.getElementById("authenticatorUri").value;
+
+            new QRCode(document.getElementById("qrCode"), {
+            text: uri,
+            width: 200,
+            height: 200
+            });
+
+            document.getElementById("copySharedKey")
+            .addEventListener("click", async function () {
+            await navigator.clipboard.writeText(
+            document.getElementById("sharedKey").value);
+
+            this.textContent = "Copied";
+            });
+        </script>
+    }
+}
